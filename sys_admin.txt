@@ -1,0 +1,15 @@
+#Commands for system administration
+
+yum install ${xxx}
+hostname
+netstat -tulpn
+service iptables status|save|restart|stop|start
+ps aux
+
+
+#Check linux version
+uname -a
+cat /proc/version
+cat /etc/issue
+cat /etc/redhat-release
+lsb_release -a
