@@ -1,0 +1,79 @@
+4/28/2014
+
+
+######### sytem admin
+df -h 
+du -sh *
+	--> check disk usage inside a folder
+sudo chown pdesai {name of file}
+sudo su -
+
+vi /etc/httpd/conf.d/proxy_ajp.conf
+	--> configure the proxy to route requests through outshri
+sudo sh /backup/backup_everything.sh
+	--> backs up important folders on the machines specified in the array inside file
+# iptables configuration - http://www.cyberciti.biz/faq/deleting-firewall-rules/
+
+ssh-copy-id -i ~/.ssh/id_rsa.pub {other_machine_name}
+
+sudo zip -r {filename} *
+
+ssh -vT git@github.com
+ssh-add -l
+ssh-add ~/.ssh/id_rsa
+
+eval `ssh-agent -s`
+
+##SELINUX RELATED
+sudo yum -y install policycoreutils-python
+sudo semanage port -a -t http_port_t -p tcp 6443
+##END SELINUX
+
+
+#restore selinux file permissions
+restorecon -Rv wiki/
+
+######### Apache server
+apachectl configtest
+	--> check if the new config file is ok
+
+/usr/sbin/httpd -V
+	--> check info about the httpd daemon running on the machine
+	
+/sbin/service httpd status
+/sbin/service httpd restart
+
+#configure ssl on apache
+yum install mod_ssl
+sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/apache2/ssl/apache.key -out /etc/apache2/ssl/apache.crt
+
+######### SSL related
+openssl x509 -inform DER -in 64.54.142.120.cer -noout -text #http://commandlinefanatic.com/cgi-bin/showarticle.cgi?article=art030
+openssl x509 -in 64.54.142.120.cer -noout -text
+
+keytool -list -keystore shrine.keystore -v #password demouser
+
+
+keytool -export -alias 192.168.10.4 -storepass demouser -file 192.168.10.4.cer -keystore shrine.keystore
+
+keytool -import -trustcacerts -alias mydomain -file mydomain.crt -keystore keystore.jks
+
+
+keytool -genkeypair -keysize 2048 -alias 192.168.10.4 -dname "CN=192.168.10.4, OU=UCLANode, O=SHRINE Network, L=LA, S=CA, C=US" -keyalg RSA -keypass demouser -storepass demouser -keystore shrine.keystore -validity 7300
+
+keytool -delete -alias 192.168.10.4 -keystore shrine.keystore
+
+keytool -list -keystore shrine.keystore -v #password demouser
+
+# Create PKCS12 keystore from private key and public certificate.
+openssl pkcs12 -export -name myservercert -in selfsigned.crt -inkey server.key -out keystore.p12
+
+# Convert PKCS12 keystore into a JKS keystore
+keytool -importkeystore -destkeystore mykeystore.jks -srckeystore keystore.p12 -srcstoretype pkcs12 -alias myservercert
+
+#export keystore to pkcs12
+keytool -importkeystore -srckeystore foo.jks -destkeystore foo.p12 -srcstoretype jks -deststoretype pkcs12
+#Convert pkcs12 to key and cert
+openssl pkcs12 -in path.p12 -out newfile.crt.pem -clcerts -nokeys
+openssl pkcs12 -in path.p12 -out newfile.key.pem -nocerts -nodes
+
