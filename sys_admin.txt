@@ -13,3 +13,7 @@ cat /proc/version
 cat /etc/issue
 cat /etc/redhat-release
 lsb_release -a
+
+#install git on redhat when not available on yum
+sudo rpm -Uvh http://dl.fedoraproject.org/pub/epel/5/x86_64/epel-release-5-4.noarch.rpm
+sudo yum install git
