@@ -1,0 +1,5 @@
+ #update all php files to html
+ find . -iname "*.php" -exec rename -v .php .html {} \;
+
+ #aws sync
+ aws s3 s3://files.brainsmuggler.com .
