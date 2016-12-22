@@ -2,4 +2,4 @@
  find . -iname "*.php" -exec rename -v .php .html {} \;
 
  #aws sync
- aws s3 s3://files.brainsmuggler.com .
+ aws s3 sync s3://files.brainsmuggler.com .
